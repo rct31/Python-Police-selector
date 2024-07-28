@@ -1,0 +1,70 @@
+import tkinter as tk
+from tkinter import font
+
+def update_font(event):
+    selected_font = listbox.get(listbox.curselection())
+    sample_label.config(font=(selected_font, 16))
+
+def enregistrer():
+    selected_font = listbox.get(listbox.curselection())
+    enregistrer_button.config(font=(selected_font, 12))
+    print(f"Police '{selected_font}' appliquée au bouton 'Enregistrer'.")
+
+def ok():
+    selected_font = listbox.get(listbox.curselection())
+    ok_button.config(font=(selected_font, 12))
+    print(f"Police '{selected_font}' appliquée au bouton 'OK'.")
+
+def parametre():
+    selected_font = listbox.get(listbox.curselection())
+    parametre_button.config(font=(selected_font, 12))
+    print(f"Police '{selected_font}' appliquée au bouton 'Paramètre'.")
+
+# Création de la fenêtre principale
+root = tk.Tk()
+root.title("Font Families")
+
+# Création du cadre pour la Listbox et la Scrollbar
+frame = tk.Frame(root)
+frame.pack(pady=20)
+
+# Création de la Scrollbar
+scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+# Création de la Listbox
+listbox = tk.Listbox(frame, width=50, height=20, yscrollcommand=scrollbar.set)
+listbox.pack(side=tk.LEFT)
+
+# Configuration de la Scrollbar
+scrollbar.config(command=listbox.yview)
+
+# Récupération de toutes les familles de polices disponibles
+font_families = font.families()
+
+# Insertion des familles de polices dans la Listbox
+for family in font_families:
+    listbox.insert(tk.END, family)
+
+# Étiquette pour afficher un exemple de la police sélectionnée
+sample_label = tk.Label(root, text="Exemple de texte", font=("Helvetica", 16))
+sample_label.pack(pady=20)
+
+# Lier la sélection de la Listbox à la mise à jour de la police de l'étiquette
+listbox.bind('<<ListboxSelect>>', update_font)
+
+# Création des boutons
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+enregistrer_button = tk.Button(button_frame, text="Enregistrer", command=enregistrer)
+enregistrer_button.pack(side=tk.LEFT, padx=5)
+
+ok_button = tk.Button(button_frame, text="OK", command=ok)
+ok_button.pack(side=tk.LEFT, padx=5)
+
+parametre_button = tk.Button(button_frame, text="Paramètre", command=parametre)
+parametre_button.pack(side=tk.LEFT, padx=5)
+
+# Exécution de la boucle principale
+root.mainloop()
